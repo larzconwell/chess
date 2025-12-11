@@ -1,0 +1,5 @@
+[tools]
+odin = "dev-2025-12a"
+
+[tools."github:larzconwell/ols"]
+version = "nightly"
