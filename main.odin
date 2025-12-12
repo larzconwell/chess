@@ -1,5 +1,6 @@
 package main
 
+import "core:fmt"
 import rl "vendor:raylib"
 
 Config :: struct {
@@ -10,10 +11,23 @@ Config :: struct {
 	tile_border_color: rl.Color,
 }
 
+File :: enum {
+	A,
+	B,
+	C,
+	D,
+	E,
+	F,
+	G,
+	H,
+}
+
 Tile :: struct {
 	rectangle: rl.Rectangle,
 	color:     rl.Color,
 	alt_color: rl.Color,
+	rank:      int,
+	file:      File,
 }
 
 build_tiles :: proc(config: Config) -> []Tile {
@@ -26,9 +40,13 @@ build_tiles :: proc(config: Config) -> []Tile {
 	tiles := make([]Tile, rows * columns)
 
 	for row in 0 ..< rows {
+		rank := rows - row // 8-1 from white perspective
+
 		for column in 0 ..< columns {
 			tile := &tiles[row * columns + column]
 
+			tile.rank = rank
+			tile.file = File(column)
 			tile.rectangle = rl.Rectangle {
 				width  = tile_width,
 				height = tile_height,
@@ -80,6 +98,10 @@ main :: proc() {
 				i32(tile.rectangle.height),
 				config.tile_border_color,
 			)
+
+			// a8\x00 for top left tile from white perspective
+			rf_string := string([]byte{u8(tile.file) + 97, u8(tile.rank) + 48, 0})
+			fmt.println(rf_string)
 		}
 
 		rl.ClearBackground(rl.RAYWHITE)
