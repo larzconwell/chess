@@ -1,12 +1,13 @@
 package main
 
-import "core:fmt"
+import "core:strings"
 import rl "vendor:raylib"
 
 Config :: struct {
+	fps_target:        i32,
 	screen_width:      i32,
 	screen_height:     i32,
-	fps_target:        i32,
+	font_size:         int,
 	tile_colors:       [2]rl.Color,
 	tile_border_color: rl.Color,
 }
@@ -69,9 +70,10 @@ build_tiles :: proc(config: Config) -> []Tile {
 
 main :: proc() {
 	config := Config {
+		fps_target        = 30,
 		screen_width      = 1000,
 		screen_height     = 1000,
-		fps_target        = 30,
+		font_size         = 25,
 		tile_colors       = [2]rl.Color{rl.BROWN, rl.BEIGE},
 		tile_border_color = rl.DARKBROWN,
 	}
@@ -84,6 +86,8 @@ main :: proc() {
 
 	rl.SetExitKey(.KEY_NULL)
 	rl.SetTargetFPS(config.fps_target)
+
+	font := rl.LoadFontEx("resources/Jost-400-Book.ttf", i32(config.font_size), nil, 0)
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
@@ -101,7 +105,14 @@ main :: proc() {
 
 			// a8\x00 for top left tile from white perspective
 			rf_string := string([]byte{u8(tile.file) + 97, u8(tile.rank) + 48, 0})
-			fmt.println(rf_string)
+			rl.DrawTextEx(
+				font,
+				strings.unsafe_string_to_cstring(rf_string),
+				rl.Vector2{tile.rectangle.x + 2, tile.rectangle.y + 1},
+				f32(config.font_size),
+				1,
+				tile.alt_color,
+			)
 		}
 
 		rl.ClearBackground(rl.RAYWHITE)
