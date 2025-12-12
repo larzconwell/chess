@@ -3,3 +3,18 @@ odin = "dev-2025-12a"
 
 [tools."github:larzconwell/ols"]
 version = "nightly"
+
+[tasks.setup]
+description = "Sets up for development"
+run = [
+  "mise install",
+  "ln -sf {{cwd}}/scripts/format_check .git/hooks/pre-commit"
+]
+
+[tasks.format]
+description = "Formats code"
+run = "./scripts/format"
+
+[tasks.format_check]
+description = "Checks if code is formatted"
+run = "./scripts/format_check"

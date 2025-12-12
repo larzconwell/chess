@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+for path in $(find . -name '*.odin'); do
+  odinfmt "${path}" -w
+  echo "" >> "${path}"
+done

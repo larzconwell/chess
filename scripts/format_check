@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+failed=0
+for path in $(find . -name '*.odin'); do
+  fmtsum="$(odinfmt "${path}" | sha256sum --binary --status | awk '{ print $1 }')"
+
+  set +e
+  echo "${fmtsum} ${path}" | sha256sum --binary --check --status -
+  res=$?
+  set -e
+
+  if [[ "${res}" != "0" ]]; then
+    echo "Unformatted file ${path}"
+    ((failed++))
+  fi
+done
+
+if [[ "${failed}" != "0" ]]; then
+  exit 1
+fi
