@@ -11,8 +11,16 @@ run = [
   "ln -sf {{cwd}}/scripts/format_check .git/hooks/pre-commit"
 ]
 
+[tasks.build]
+description = "Builds chess binary"
+run = "odin build . -out:chess -show-timings -strict-style -vet -warnings-as-errors"
+
+[tasks.play]
+description = "Build and run"
+run = "odin run . -show-timings -strict-style -vet -warnings-as-errors"
+
 [tasks.format]
-description = "Formats code"
+description = "Format code"
 run = "./scripts/format"
 
 [tasks.format_check]
