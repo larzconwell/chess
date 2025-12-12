@@ -1,4 +1,4 @@
-name: test
+name: ci
 
 on:
   push:
@@ -21,6 +21,12 @@ jobs:
       - run: mise build
   mac_build:
     runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v3
+      - run: mise build
+  windows_build:
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v3

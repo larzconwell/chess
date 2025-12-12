@@ -1,5 +1,7 @@
-[tools]
-odin = "dev-2025-12a"
+[tools."github:odin-lang/Odin"]
+version = "dev-2025-12a"
+bin_path = "."
+strip_components = 1
 
 [tools."github:larzconwell/ols"]
 version = "nightly"
@@ -14,6 +16,7 @@ run = [
 [tasks.build]
 description = "Builds chess binary"
 run = "odin build . -out:chess -show-timings -strict-style -vet -warnings-as-errors"
+run_windows = "odin build . -out:chess.exe -show-timings -strict-style -vet -warnings-as-errors"
 
 [tasks.play]
 description = "Build and run"
