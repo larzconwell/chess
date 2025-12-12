@@ -4,7 +4,7 @@ IFS=$'\n\t'
 
 failed=0
 for path in $(find . -name '*.odin'); do
-  fmtsum="$(odinfmt "${path}" | sha256sum --binary --status | awk '{ print $1 }')"
+  fmtsum="$(odinfmt "${path}" | sha256sum --binary | awk '{ print $1 }')"
 
   set +e
   echo "${fmtsum} ${path}" | sha256sum --binary --check --status -
