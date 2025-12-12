@@ -21,11 +21,11 @@ Tile :: struct {
 	file:      File,
 }
 
-build_tiles :: proc(config: Config) -> []Tile {
+build_tiles :: proc(config: Config, size: i32) -> []Tile {
 	rows :: 8
 	columns :: 8
-	tile_width := f32(config.screen_width / columns)
-	tile_height := f32(config.screen_height / rows)
+	tile_width := f32(size / columns)
+	tile_height := f32(size / rows)
 	colors := config.tile_colors
 
 	tiles := make([]Tile, rows * columns)

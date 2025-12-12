@@ -7,13 +7,14 @@ main :: proc() {
 	config := Config {
 		fps_target        = 30,
 		screen_width      = 1000,
-		screen_height     = 1000,
+		screen_height     = 800,
 		font_size         = 25,
 		tile_colors       = [2]rl.Color{rl.BROWN, rl.BEIGE},
 		tile_border_color = rl.DARKBROWN,
 	}
 
-	tiles := build_tiles(config)
+	minSize := min(config.screen_width, config.screen_height)
+	tiles := build_tiles(config, minSize)
 	defer delete(tiles)
 
 	rl.InitWindow(config.screen_width, config.screen_height, "Chess")
